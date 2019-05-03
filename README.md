@@ -169,6 +169,9 @@ WARNING : Chrome is the only supported browser !
 
 There are many detailed information... the blog post [Go execution tracer](https://blog.gopheracademy.com/advent-2017/go-execution-tracer/) is a good quick tour of the trace tool GUI.
 
+Tip : from the *View trace* part hit `?` to show a help.
+
+
 ### With code in a program
 
 Same principle as tracing with test, but you have to add code to collect traces into a file, and then use `go tool trace`.
