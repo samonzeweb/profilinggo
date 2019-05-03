@@ -1,4 +1,4 @@
-# Basics of benchmarking, Profiling and tracing with Go
+# Basics of benchmarking, profiling and tracing with Go
 
 ## Introduction
 
@@ -95,7 +95,7 @@ The View menu :
 
 ### Profiling program with code
 
-Use `pprof.StartCPUProfile()`, `pprof.StopCPUProfile()` and `pprof.WriteHeapProfile()`. See the `pprof`package documentation for more information.
+Use `pprof.StartCPUProfile()`, `pprof.StopCPUProfile()` and `pprof.WriteHeapProfile()`. See the `pprof` package documentation for more information.
 
 A simple example :
 
@@ -108,7 +108,7 @@ go tool pprof -http=localhost:8080 cpu.out
 
 ## Tracing the GC work
 
-This part isn't the most useful, but using GC traces could easily spot a too high GC pressure.
+This part isn't the most useful, but GC traces could easily spot a too high GC pressure.
 
 Using an environment variable with any program (or test) : `GODEBUG=gctrace=1`
 
@@ -149,7 +149,7 @@ In the previous example change the value of the `-c` argument and the `n` value 
 
 ## Tracing
 
-Traces are event collected during the program execution. They give a chronological view of the execution of a program with detailed information about heap, GC, goroutines, core usage, ...
+Traces are event collected during the program execution. They give a chronological view of a program execution with detailed information about heap, GC, goroutines, core usage, ...
 
 ### With tests
 
@@ -165,7 +165,7 @@ go tool trace trace.out
 
 WARNING : Chrome is the only supported browser !
 
-There are many detailed information... the blog post [Go execution tracer](https://blog.gopheracademy.com/advent-2017/go-execution-tracer/) is a good quick tour of the trace tool.  
+There are many detailed information... the blog post [Go execution tracer](https://blog.gopheracademy.com/advent-2017/go-execution-tracer/) is a good quick tour of the trace tool GUI.
 
 ### With code in a program
 
@@ -193,7 +193,7 @@ Importing the `net/http/pprof` standard package add handler to `DefaultServeMux`
 ```go
 import _ "net/http/pprof"
 
-// Add this only if there is needed
+// Add this only if needed
 go func() {
 	log.Println(http.ListenAndServe("localhost:8000", nil))
 }()
@@ -209,7 +209,7 @@ The package `net/http/pprof` register handlers to `DefaultServeMux`, use a separ
 
 ### Profiling
 
-It's possible to profile live with `go tool pprof`.
+It's possible to profile program using `net/http/pprof` with `go tool pprof`.
 
 We'll use 3 terminals to :
 
