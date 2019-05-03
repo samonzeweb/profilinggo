@@ -14,6 +14,8 @@ The main subjects here are :
 * Profiling : aggregated data collected through sampling during program (or test) execution. Profiling has no timeline.
 * Tracing : data collected through events occurring during program (or test) execution. Tracing has a timeline.
 
+Profiling and tracing could apply to benchmarks.
+
 ## Benchmarking
 
 Benchmarking is done through the Go testing tools. It's rather simple and well documented.
