@@ -1,0 +1,5 @@
+*.test
+*.out
+*.txt
+webfib/webfib
+anowebfib/anowebfib
