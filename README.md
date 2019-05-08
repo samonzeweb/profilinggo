@@ -101,6 +101,8 @@ The View menu :
 * Flamegraph : self-explanatory
 * others...
 
+Graph and flamegraph are rather similar, but there is a major difference : flamegraph shows sampled call stack with time/memory data (it's a tree), while graph could have multiple path converging to the same function (it's not a tree). The time/memory data associated to functions having multiple paths converging to is an aggregation. Both are useful, just choose the good one for your case.
+
 ### Profiling program with code
 
 Use `pprof.StartCPUProfile()`, `pprof.StopCPUProfile()` and `pprof.WriteHeapProfile()`. See the `pprof` package documentation for more information.
