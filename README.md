@@ -266,7 +266,7 @@ What's in the box :
 * `Region` struct : allow to trace lower-level operations.
 * `Log` function : code can add log information to traces.
 
-The `anowebfib` (line another webfib) use the three. The code identify each HTTP request with a `Task`, each call to fibonacci package with `Region`, and n are logged.
+The `anowebfib` (like *another webfib*) use the three. The code identify each HTTP request with a `Task`, each call to fibonacci package with `Region`, and n are logged.
 
 Example, with 3 terminals :
 
