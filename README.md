@@ -20,7 +20,7 @@ Profiling and tracing could apply to benchmarks.
 
 Go tooling does not measure CPU usage, it measures elapsed time. It's important not to confuse both, because if the code isn't CPU bound, they are not correlated.
 
-For example if you add `time.Sleep(time.Millisecond)` into the code it will change the output. The CPU isn't involved, but the result change.
+For example if you add `time.Sleep(time.Millisecond)` into the code it will change the output. The CPU isn't involved, but the result changes.
 
 ## Benchmarking
 
@@ -44,7 +44,7 @@ Run the tests :
 * with benchmarks (time) : `go test ./fibonacci -bench .`
 * with benchmarks (time and memory) : `go test ./fibonacci -bench . -benchmem`
 
-The argument following `-bench` is a regular expression. All banchmark functions whose names match are executed. The `.` in the previous examples isn't the currect directory but a pattern matching all tests. To run a specific benchmark, use the regexp : `-bench Suite` (means *everything containing Suite*).
+The argument following `-bench` is a regular expression. All benchmark functions whose names match are executed. The `.` in the previous examples isn't the current directory but a pattern matching all tests. To run a specific benchmark, use the regexp : `-bench Suite` (means *everything containing Suite*).
 
 Useful tip : see `ResetTimer()` to ignore test setup in measures, see also `StopTimer()` and `StartTimer()`: https://golang.org/pkg/testing/#B.ResetTimer
 
