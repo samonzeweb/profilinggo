@@ -6,15 +6,21 @@ This documentation gives an overview of possibilities offered by go tooling to m
 
 This documentation could also act as a reminder.
 
-Most cases could be tested with the simple code accompanying this documentation, so it is easy to start experimenting these tools. It's also designed to be a live demo.
+Most cases could be tested with the simple code accompanying this documentation, so it is easy to start experimenting these tools. It's also designed to be a live demo, or a workshop.
 
 The main subjects here are :
 
-* Benchmarking : focus is on a particular piece of code, allowing measurement of cpu and/or memory information.
+* Benchmarking : focus is on a particular piece of code, allowing measurement of time and/or memory information.
 * Profiling : aggregated data collected through sampling during program (or test) execution. Profiling has no timeline.
 * Tracing : data collected through events occurring during program (or test) execution. Tracing has a timeline.
 
 Profiling and tracing could apply to benchmarks.
+
+## Note about CPU measures
+
+Go tooling does not measure CPU usage, it measures elapsed time. It's important not to confuse both, because if the code isn't CPU bound, they are not correlated.
+
+For example if you add `time.Sleep(time.Millisecond)` into the code it will change the output. The CPU isn't involved, but the result change.
 
 ## Benchmarking
 
