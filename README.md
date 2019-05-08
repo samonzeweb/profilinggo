@@ -35,10 +35,10 @@ See the code of `fibonacci/fibonacci_test.go` for a minimal example.
 Run the tests :
 
 * without any benchmarks : `go test ./fibonacci`
-* with benchmarks (time) : `go test ./fibonacci -bench "^.*$"`
-* with benchmarks (time and memory) : `go test ./fibonacci -bench "^.*$" -benchmem`
+* with benchmarks (time) : `go test ./fibonacci -bench .`
+* with benchmarks (time and memory) : `go test ./fibonacci -bench . -benchmem`
 
-To run a specific benchmark, use the regexp : `-bench "^(BenchmarkFibonacci)$"`
+The argument following `-bench` is a regular expression. All banchmark functions whose names match are executed. The `.` in the previous examples isn't the currect directory but a pattern matching all tests. To run a specific benchmark, use the regexp : `-bench Suite` (means *everything containing Suite*).
 
 Useful tip : see `ResetTimer()` to ignore test setup in measures, see also `StopTimer()` and `StartTimer()`: https://golang.org/pkg/testing/#B.ResetTimer
 
@@ -49,9 +49,9 @@ It's possible to compare benchmarks with an external tool :
 ```
 go get -u golang.org/x/tools/cmd/benchcmp
 
-go test ./fibonacci -bench "^.*$" -benchmem > old.txt
+go test ./fibonacci -bench . -benchmem > old.txt
 (do some changes in the code)
-go test ./fibonacci -bench "^.*$" -benchmem > new.txt
+go test ./fibonacci -bench . -benchmem > new.txt
 
 ~/go/bin/benchcmp old.txt new.txt
 ```
@@ -73,7 +73,7 @@ An example with both :
 
 ```
 go test ./fibonacci \
-  -bench "^(BenchmarkSuite)$" \
+  -bench BenchmarkSuite \
   -benchmem \
   -cpuprofile=cpu.out \
   -memprofile=mem.out
@@ -159,7 +159,7 @@ Generate traces with a test, and visualize the data :
 
 ```
 go test ./fibonacci \
-  -bench "^(BenchmarkSuite)$" \
+  -bench BenchmarkSuite \
   -trace=trace.out
 
 go tool trace trace.out
