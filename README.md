@@ -2,15 +2,15 @@
 
 ## Introduction
 
-This documentation gives an overview of possibilities offered by go tooling to measure performance or collect runtime information. It is not a detailed tutorial about benchmarking, profiling or tracing.
+This documentation gives an overview of possibilities offered by go tooling to measure performances or collect runtime information. It is not a detailed tutorial about benchmarking, profiling or tracing.
 
 This documentation could also act as a reminder.
 
-Most cases could be tested with the simple code accompanying this documentation, so it is easy to start experimenting these tools. It's also designed to be a live demo, or a workshop.
+In most cases, you can try by yourself by running provided example source code. It is easy to experiment and play with these tools, as a kind of live demo or for a workshop.
 
-The main subjects here are :
+Main subjects are :
 
-* Benchmarking : focus is on a particular piece of code, allowing measurement of time and/or memory information.
+* Benchmarking : focus on a particular piece of code, allowing measurement of time and/or memory information.
 * Profiling : aggregated data collected through sampling during program (or test) execution. Profiling has no timeline.
 * Tracing : data collected through events occurring during program (or test) execution. Tracing has a timeline.
 
@@ -32,7 +32,7 @@ The primary result of a benchmark is, per tested operation :
 * the amount of memory allocated on the heap.
 * the amount of allocations.
 
-Each benchmark could also be a starting point to profiling or tracing operations.
+Each benchmark could also be a starting point for profiling or tracing operations.
 
 See the code of `fibonacci/fibonacci_test.go` for a minimal example.
 
@@ -66,7 +66,7 @@ go test ./fibonacci -bench . -benchmem > new.txt
 
 Profiling data are sampled and aggregated ones, not detailed traces. CPU profile measures elapsed time, and memory profile measures heap allocations (the stack is ignored).
 
-While CPU benchmarks show how long an operation take (global view), profiling show which part of code consume time (detailed view). You get the same global/detailed view principle with memory.
+While CPU benchmarks show how long an operation take (global view), profiling show function's execution duration (detailed view). You get the same global/detailed view with memory consumption.
 
 ### Profiling benchmarks
 
@@ -89,14 +89,14 @@ CPU and memory profiling data from benchmarks are always stored in two separate 
 
 ### Viewing profiling data
 
-There are two way to exploit profiling data with the standard go tooling :
+There are two way to exploit profiling data with standard go tools :
 
 * through command line : `go tool pprof cpu.out`
 * with a browser : `go tool pprof -http=localhost:8080 cpu.out`
 
 The View menu :
 
-* Top : ordered list of function sorted by their consumption of time/memory.
+* Top : ordered list of functions sorted by their duration/memory consumption.
 * Graph : function call tree, with time/memory annotations.
 * Flamegraph : self-explanatory
 * others...
@@ -159,11 +159,11 @@ In the previous example change the value of the `-c` argument and the `n` value 
 
 ## Tracing
 
-Traces are event collected during the program execution. They give a chronological view of a program execution with detailed information about heap, GC, goroutines, core usage, ...
+Traces are event collected during the program execution. They give a chronological view of program's execution with detailed information about heap, GC, goroutines, core usage, ...
 
 ### With tests
 
-Generate traces with a test, and visualize the data :
+Generate traces with a test, and visualize data :
 
 ```
 go test ./fibonacci \
@@ -182,7 +182,7 @@ Tip : from the *View trace* part hit `?` to show a help.
 
 ### With code in a program
 
-Same principle as tracing with test, but you have to add code to collect traces into a file, and then use `go tool trace`.
+Like tracing with test, but you have to add code to collect traces into a file, and then use `go tool trace`.
 
 ```go
   "runtime/trace"
@@ -195,9 +195,9 @@ Same principle as tracing with test, but you have to add code to collect traces 
 
 ## Tracing and profiling long running programs
 
-Here Go tooling starts to really shine ! Go allows any program running a http server to be analysed during executing, even in production. And it's really easy.
+Here Go tooling starts to really shine ! Go allows any program running a http server to be analysed during execution, even in production. And it's really easy.
 
-Data are gathered only on demand, it's free when it is not used.
+Data are gathered only on demand, it doesn't use resources when it is not used.
 
 ### Setup
 
@@ -216,9 +216,9 @@ The `webfib` exemple use it. Live data are available here : http://localhost:800
 
 ### Security
 
-Handlers provided by `net/http/pprof` should only be accessible to trusty client. It is not something you want to be available directly through internet, or internally by untrusted third party.
+Handlers provided by `net/http/pprof` should only be accessible to trusted client. It is not something you want to be available directly through internet, or internally by untrusted third party.
 
-The package `net/http/pprof` register handlers to `DefaultServeMux`, use a separate server (create a dedicated `Mux`) for your http server. Each one using a different port, different security rules could be applied.  
+The package `net/http/pprof` register handlers to `DefaultServeMux`, use a separate server (create a dedicated `Mux`) for your http server. Each one using a different port, different security rules could be applied.
 
 ### Profiling
 
@@ -244,7 +244,7 @@ The `go tool ...` command line collect data, then open the browser. Be patient..
 
 ### Trace analysis
 
-Tracing data have to be collected manually, and feed into `go tool trace`.
+Trace data have to be collected manually, and feed into `go tool trace`.
 
 We'll use 3 terminals to :
 
@@ -262,7 +262,7 @@ curl -o trace.out http://localhost:8000/debug/pprof/trace?seconds=15
 ~/go/bin/hey -n 2000 -c 200 http://localhost:8000/?n=30
 ```
 
-Now analyse the data with Chrome : `go tool trace trace.out`
+Now analyse data with Chrome : `go tool trace trace.out`
 
 ## User-defined traces
 
@@ -270,11 +270,11 @@ User-defined traces were introduced with Go 1.11. It's not a new tool, but rathe
 
 What's in the box :
 
-* `Task` struct : allows to trace high-level operations.
-* `Region` struct : allow to trace lower-level operations.
-* `Log` function : code can add log information to traces.
+* `Task` struct : to trace high-level operations.
+* `Region` struct : to trace lower-level operations.
+* `Log` function : to add log information into traces.
 
-The `anowebfib` (like *another webfib*) use the three. The code identify each HTTP request with a `Task`, each call to fibonacci package with `Region`, and n are logged.
+The `anowebfib` (like *another webfib*) use all mentionned points. Each HTTP request are identified using a `Task`, each call to fibonacci package with `Region`, and n are logged.
 
 Example, with 3 terminals :
 
@@ -285,7 +285,7 @@ go build
 
 curl -o trace.out http://localhost:8000/debug/pprof/trace?seconds=20
 
-~/go/bin/hey -n 2000 -c 200 http://localhost:8000/unique?n=30 
+~/go/bin/hey -n 2000 -c 200 http://localhost:8000/unique?n=30
 ~/go/bin/hey -n 2000 -c 200 http://localhost:8000/multiple?n=30
 ```
 
