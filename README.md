@@ -150,19 +150,6 @@ go get -u github.com/rakyll/hey
 ~/go/bin/hey -n 1000 http://localhost:8000/?n=30
 ```
 
-Graphical view with `gcvic`, which set `GODEBUG=gctrace=1` automatically :
-
-```
-go get -u github.com/davecheney/gcvis
-~/go/bin/gcvis ./webfib
-
-(other terminal)
-
-~/go/bin/hey -n 2000 -c 200 http://localhost:8000/?n=30
-```
-
-In the previous example change the value of the `-c` argument and the `n` value to change the GC load and see the result.
-
 ## Tracing
 
 Traces are event collected during the program execution. They give a chronological view of program's execution with detailed information about heap, GC, goroutines, core usage, ...
