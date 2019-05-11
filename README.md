@@ -16,6 +16,12 @@ Main subjects are :
 
 Profiling and tracing could apply to benchmarks.
 
+## Note about Go version
+
+The code is provided as a Go module. There is no need to set the `GOPATH` environment variable.
+
+You need a Go version compatible with Go modules. Provided code uses Go 1.12.
+
 ## Note about CPU measures
 
 Go tooling does not measure CPU usage, it measures elapsed time. It's important not to confuse both, because if the code isn't CPU bound, they are not correlated.
