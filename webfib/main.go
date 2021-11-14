@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"io"
+	"io/ioutil"
 	"net/http"
 	_ "net/http/pprof"
 	"strconv"
@@ -19,6 +21,11 @@ func main() {
 }
 
 func fibHandler(w http.ResponseWriter, r *http.Request) {
+	defer func() {
+		_, _ = io.Copy(ioutil.Discard, r.Body)
+		_ = r.Body.Close()
+	}()
+
 	w.Header().Add("Content-Type", "text/plain; charset=utf-8")
 	nStr := r.URL.Query().Get("n")
 	n, err := strconv.Atoi(nStr)
@@ -32,5 +39,5 @@ func fibHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "The value of n is invalid")
 		return
 	}
-	fmt.Fprintf(w, fibonacci.Suite(n))
+	fmt.Fprint(w, fibonacci.Suite(n))
 }

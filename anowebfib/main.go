@@ -3,6 +3,8 @@ package main
 import (
 	"context"
 	"fmt"
+	"io"
+	"io/ioutil"
 	"net/http"
 	_ "net/http/pprof"
 	"runtime/trace"
@@ -23,6 +25,11 @@ func main() {
 
 // Returns only the computed value for n
 func fibHandler(w http.ResponseWriter, r *http.Request) {
+	defer func() {
+		_, _ = io.Copy(ioutil.Discard, r.Body)
+		_ = r.Body.Close()
+	}()
+
 	ctx, task := trace.NewTask(context.Background(), "UniqueFib")
 	defer task.End()
 
@@ -44,6 +51,11 @@ func fibHandler(w http.ResponseWriter, r *http.Request) {
 
 // Returns a table from 1 up to n
 func suiteHandler(w http.ResponseWriter, r *http.Request) {
+	defer func() {
+		_, _ = io.Copy(ioutil.Discard, r.Body)
+		_ = r.Body.Close()
+	}()
+
 	ctx, task := trace.NewTask(context.Background(), "MultipleFib")
 	defer task.End()
 
@@ -61,7 +73,7 @@ func suiteHandler(w http.ResponseWriter, r *http.Request) {
 		result = fibonacci.Suite(n)
 	})
 
-	fmt.Fprintf(w, result)
+	fmt.Fprint(w, result)
 }
 
 // Parse the arguments

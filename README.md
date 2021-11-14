@@ -59,7 +59,7 @@ Useful tip : see `ResetTimer()` to ignore test setup in measures, see also `Stop
 It's possible to compare benchmarks with an external tool :
 
 ```
-go get -u golang.org/x/tools/cmd/benchcmp
+go install golang.org/x/tools/cmd/benchcmp@latest
 
 go test ./fibonacci -bench . -benchmem > old.txt
 (do some changes in the code)
@@ -109,6 +109,8 @@ The View menu :
 
 Graph and flamegraph are rather similar, but there is a major difference : flamegraph shows sampled call stack with time/memory data (it's a tree), while graph could have multiple path converging to the same function (it's not a tree). The time/memory data associated to functions having multiple paths converging to is an aggregation. Both are useful, just choose the good one for your case.
 
+Viewing the data in the browser requires Graphviz. It can be installed using many package manager, ou downloaded from its official site : https://graphviz.org.
+
 ### Profiling program with code
 
 Use `pprof.StartCPUProfile()`, `pprof.StopCPUProfile()` and `pprof.WriteHeapProfile()`. See the `pprof` package documentation for more information.
@@ -118,9 +120,11 @@ A simple example :
 ```
 cd showfib
 go build
-./showfib 30 2>cpu.out
+./showfib 40 2>cpu.out
 go tool pprof -http=localhost:8080 cpu.out
 ```
+
+If `showfib` is too fast no data will be available. In this case increase the value until it take few seconds to run.
 
 ## Tracing the GC work
 
@@ -146,8 +150,8 @@ GODEBUG=gctrace=1 ./webfib
 
 (other terminal)
 
-go get -u github.com/rakyll/hey
-~/go/bin/hey -n 1000 http://localhost:8000/?n=30
+go install github.com/rakyll/hey@latest
+~/go/bin/hey -n 10000 http://localhost:8000/?n=30
 ```
 
 ## Tracing
@@ -165,8 +169,6 @@ go test ./fibonacci \
 
 go tool trace trace.out
 ```
-
-WARNING : Chrome is the only supported browser !
 
 There are many detailed information... the blog post [Go execution tracer](https://blog.gopheracademy.com/advent-2017/go-execution-tracer/) is a good quick tour of the trace tool GUI.
 
@@ -278,8 +280,8 @@ go build
 
 curl -o trace.out http://localhost:8000/debug/pprof/trace?seconds=20
 
-~/go/bin/hey -n 2000 -c 200 http://localhost:8000/unique?n=30
-~/go/bin/hey -n 2000 -c 200 http://localhost:8000/multiple?n=30
+~/go/bin/hey -n 3000 -c 200 http://localhost:8000/unique?n=30
+~/go/bin/hey -n 3000 -c 200 http://localhost:8000/multiple?n=30
 ```
 
 As usual : `go tool trace trace.out`
